@@ -3,6 +3,7 @@ import csv
 from openai import OpenAI
 from dotenv import load_dotenv
 from firecrawl import Firecrawl
+from jinja2 import Environment, FileSystemLoader
 
 # Load environment variables from .env file
 load_dotenv()
@@ -58,14 +59,17 @@ def get_articles(sites):
 
 # Given a list of articles as strings, generate a prompt to give to ChatGPT to summarize them.
 def create_prompt(articles):
-    print("Creating prompt")
-    header = '''
-    You are an expert at summarizing documents.
-    You will receive a list of articles, find the most important ones and generate a summary of what's happening in battery news.
-'''
-    separator = "<ARTICLE>"
+    llm_context = {
+        "num_articles": len(articles),
+        "articles": "\n---\n".join(articles)
+    }
+    file_loader = FileSystemLoader('.')
+    env = Environment(loader=file_loader)
 
-    return header + separator.join(articles)
+    template = env.get_template('llm_template.txt')
+    final_prompt = template.render(llm_context)
+
+    return final_prompt
 
 def call_chat(prompt):
     print("Sending prompt to LLM")

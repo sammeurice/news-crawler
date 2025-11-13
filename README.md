@@ -64,6 +64,23 @@ https://www.batterynews.com,5
 https://www.technews.example.com/batteries,3
 ```
 
+### Customizing the AI's Summary Instructions
+The instructions for how the AI should summarize the news are now in a dedicated file, making them easy to change.
+
+**The file to edit is:** `llm_template.txt`
+
+You can open this plain text file and change the rules for the AI.
+
+**What you can change:**
+
+* **The Main Instructions:** You can freely change the text that tells the AI what its job is (e.g., changing "expert news summarization assistant" to "creative marketing copywriter").
+
+* **The Bullet Points:** You can modify, add, or remove the bullet points under the INSTRUCTIONS section. This is how you control the length, tone, and focus of the final summary.
+
+**What you should NOT change:**
+
+* **Special Keywords (Placeholders):** Do not change any text inside double curly brackets, like `{{ articles }}` or `{{ max_length_words }}`. These are special keywords that the script uses to insert the news content and other data. Changing these will break the tool.
+
 ## 4. How to Run It
 Once your keys and CSV file are ready, run the script from your terminal:
 

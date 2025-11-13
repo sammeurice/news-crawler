@@ -1,0 +1,12 @@
+You are an expert news summarization assistant. Your task is to analyze the following {{ num_articles }} news articles and provide a cohesive, unbiased summary.
+
+---
+**INSTRUCTIONS FOR THE SUMMARY:**
+1. Identify the central theme or event across all articles.
+2. Ensure the summary is no longer than 150 words.
+3. Use a clear, journalistic tone.
+4. Conclude with a list of the key entities (people, companies, locations) mentioned.
+---
+
+**NEWS ARTICLES:**
+{{ articles }}

@@ -81,12 +81,33 @@ You can open this plain text file and change the rules for the AI.
 
 * **Special Keywords (Placeholders):** Do not change any text inside double curly brackets, like `{{ articles }}` or `{{ max_length_words }}`. These are special keywords that the script uses to insert the news content and other data. Changing these will break the tool.
 
-## 4. How to Run It
-Once your keys and CSV file are ready, run the script from your terminal:
+## 4. How to Run It (Normal vs. Test Mode)
+There are two ways to run this tool depending on what you want to do.
 
-```Code snippet
+**Option A: The "Live" Run (Get Fresh News)**
+Use this mode when you want to fetch the absolute latest news from the internet. This takes longer because it has to visit every website.
+
+**Command:**
+
+```bash
 python3 main.py
 ```
+
+* **What happens:** It scrapes the websites, saves the articles to a local file (articles_cache.json), and prints the summary.
+
+* **Note:** This takes a few minutes with just 1 site because of the scraping. I haven't tested this thoroughly but I imagine with lots of sites this will take a while.
+
+**Option B: The "Test" Run (Fast Mode)**
+Use this mode when you are editing `llm_template.txt` and want to see how your changes look immediately. It skips the slow website scraping and re-uses the news from your last "Live" run.
+
+**Command:**
+
+```bash
+python3 main.py --test
+```
+* **What happens:** It instantly loads the saved articles and prints a new summary based on your updated instructions.
+
+* **Note:** You must run Option A at least once before you can use Option B.
 
 ## 5. Understanding the Output
 Currently, the script will print the final summary directly to your Console/Terminal window.

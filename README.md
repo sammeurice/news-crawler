@@ -60,8 +60,8 @@ To add a new site, simply add a new line to the bottom of the file.
 
 ```Code snippet
 url,limit
-[https://www.batterynews.com](https://www.batterynews.com),5
-[https://www.technews.example.com/batteries,3](https://www.technews.example.com/batteries,3)
+https://www.batterynews.com,5
+https://www.technews.example.com/batteries,3
 ```
 
 ## 4. How to Run It
@@ -71,7 +71,7 @@ Once your keys and CSV file are ready, run the script from your terminal:
 python3 main.py
 ```
 
-5. Understanding the Output
+## 5. Understanding the Output
 Currently, the script will print the final summary directly to your Console/Terminal window.
 
 * Note: The tool does not save the summary to a file automatically. If you want to save the text, you can copy and paste it from the terminal, or the code can be modified later to save a .txt file.

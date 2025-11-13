@@ -29,7 +29,7 @@ venv\Scripts\activate
 Once your environment is active (you should see (venv) in your terminal line), run the following command to install the necessary tools:
 
 ```bash
-pip install openai python-dotenv firecrawl-py
+pip install openai python-dotenv firecrawl-py jinja2
 ```
 
 ## 3. Configuration
@@ -96,6 +96,6 @@ Currently, the script will print the final summary directly to your Console/Term
 
 
 ## Troubleshooting / Notes for Developers
-* **Dependencies:** The script relies on openai, python-dotenv, and firecrawl.
+* **Dependencies:** The script relies on openai, python-dotenv, jinja2, and firecrawl.
 
 * **Crawl Depth:** Be careful setting the limit in the CSV too high (e.g., 50+), as this will consume more API credits and take significantly longer to run.

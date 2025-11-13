@@ -1,6 +1,6 @@
 import os
 import csv
-from openai return OpenAI
+from openai import OpenAI
 from dotenv import load_dotenv
 from firecrawl import Firecrawl
 
@@ -11,18 +11,20 @@ firecrawl_api_key = os.getenv("FIRECRAWL_API_KEY")
 
 # Get sites to crawl from sites.csv. Return a dict containing the url of the site and it's crawl limit.
 def get_sites():
+    print("Getting sites")
     sites = []
 
-    with open('sites.csv', mode='r') as file:
+    with open('sites.csv', mode='r', newline='', encoding='utf-8') as file:
         reader = csv.DictReader(file)
         
         for row in reader:
             url = row['url']
-            count = int(row['limit']) 
+            limit = int(row['limit']) 
             
             sites.append({'url': url, 'limit': limit})
             
 
+    print("Got " + str(len(sites)) + " sites")
     return sites
 
 # Given a crawled page, return all the data found joined into one string.
@@ -35,13 +37,14 @@ def get_markdown_from_article(article):
 
 # Given a list of sites, return a list of articles.
 def get_articles(sites):
-    firecrawl = Firecrawl(api_key=FIRECRAWL_API_KEY)
+    print("Getting articles")
+    firecrawl = Firecrawl(api_key=firecrawl_api_key)
     
     articles = []
     for site in sites:
         article = firecrawl.crawl(
-            site.url,
-            limit=site.limit,
+            site['url'],
+            limit=site['limit'],
             scrape_options={
                 'formats': ['markdown'],
             },
@@ -49,20 +52,23 @@ def get_articles(sites):
         markdown = get_markdown_from_article(article)
         articles.append(markdown)
 
+    print("Got " + str(len(articles)) + " articles")
     return articles
 
 
 # Given a list of articles as strings, generate a prompt to give to ChatGPT to summarize them.
 def create_prompt(articles):
+    print("Creating prompt")
     header = '''
     You are an expert at summarizing documents.
     You will receive a list of articles, find the most important ones and generate a summary of what's happening in battery news.
 '''
     separator = "<ARTICLE>"
 
-    return header + seperator.join(articles)
+    return header + separator.join(articles)
 
 def call_chat(prompt):
+    print("Sending prompt to LLM")
     client = OpenAI()
 
     response = client.chat.completions.create(

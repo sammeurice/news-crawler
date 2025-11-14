@@ -7,15 +7,16 @@ To run this tool, you will need a "Secret Key" from two services. These keys act
 * **OpenAI API Key:** You can get this from platform.openai.com.
 
 * **Firecrawl API Key:** You can get this from the Firecrawl website.
+
 * **Gmail App Password:** (Only if you want email alerts)
 
-* Go to your Google Account → Security.
+    * Go to your Google Account → Security.
 
-* Enable "2-Step Verification" if it isn't already.
+    * Enable "2-Step Verification" if it isn't already.
 
-* Search for "App Passwords" in the search bar.
+    * Search for "App Passwords" in the search bar.
 
-* Create a new one named "News Script". **Copy the 16-letter code it gives you.**
+    * Create a new one named "News Script". **Copy the 16-letter code it gives you.**
 
 ## 2. Installation
 ### Step A: Create a Virtual Environment
@@ -45,9 +46,9 @@ pip install openai python-dotenv firecrawl-py jinja2
 ### Setting up the .env file (API Keys)
 The code looks for your passwords in a hidden file named .env. This ensures you don't accidentally share your passwords if you send the code to someone else.
 
-* 1. Create a new file in this folder named exactly .env (the dot is important).
+* Create a new file in this folder named exactly .env (the dot is important).
 
-* 2. Open it with a text editor and paste the following, replacing the text after the = with your actual keys:
+* Open it with a text editor and paste the following, replacing the text after the = with your actual keys:
 
 ```Plaintext
 # --- API KEYS ---
@@ -152,6 +153,8 @@ The script will print the final summary directly to your Console/Terminal window
 
 
 ## Troubleshooting / Notes for Developers
-* **Dependencies:** The script relies on openai, python-dotenv, jinja2, and firecrawl.
+* **Email Not Sending:** Ensure you added the `--send_email` flag. Even if your `.env` file is correct, the script will not send an email without this flag.
 
-* **Crawl Depth:** Be careful setting the limit in the CSV too high (e.g., 50+), as this will consume more API credits and take significantly longer to run.
+* **Cache File:** The script creates `articles_cache.json` to store data for Test Mode.
+
+* **Crawl Depth:** Keep the limit in `sites.csv` low (e.g., 1-5) to prevent long runtimes.

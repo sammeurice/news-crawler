@@ -7,6 +7,15 @@ To run this tool, you will need a "Secret Key" from two services. These keys act
 * **OpenAI API Key:** You can get this from platform.openai.com.
 
 * **Firecrawl API Key:** You can get this from the Firecrawl website.
+* **Gmail App Password:** (Only if you want email alerts)
+
+* Go to your Google Account → Security.
+
+* Enable "2-Step Verification" if it isn't already.
+
+* Search for "App Passwords" in the search bar.
+
+* Create a new one named "News Script". **Copy the 16-letter code it gives you.**
 
 ## 2. Installation
 ### Step A: Create a Virtual Environment
@@ -41,8 +50,19 @@ The code looks for your passwords in a hidden file named .env. This ensures you 
 * 2. Open it with a text editor and paste the following, replacing the text after the = with your actual keys:
 
 ```Plaintext
+# --- API KEYS ---
 OPENAI_API_KEY=sk-proj-your-openai-key-here
 FIRECRAWL_API_KEY=fc-your-firecrawl-key-here
+
+# --- EMAIL SETTINGS ---
+# Leave these blank if you are not using the email feature.
+
+EMAIL_ADDRESS=your_email@gmail.com
+
+# Paste your 16-letter App Password below. Do NOT add extra spaces or text on that line.
+EMAIL_PASSWORD=abcdefghijklmnop
+
+EMAIL_RECIPIENT=boss@company.com
 ```
 
 ### Modifying sites.csv (Websites to crawl)
@@ -108,9 +128,24 @@ python3 main.py --test
 * **What happens:** It instantly loads the saved articles and prints a new summary based on your updated instructions.
 
 * **Note:** You must run Option A at least once before you can use Option B.
+**Sending Emails** 
+
+By default, the script only prints to the screen. If you want it to send the email configured in your `.env` file, add the `--send_email` flag to any command.
+
+**Example: Scrape fresh news AND email the result:**
+
+```bash
+python3 main.py --send_email
+```
+
+**Example: Use cached news AND email the result (probably not useful 💩):**
+
+```bash
+python3 main.py --test --send_email
+```
 
 ## 5. Understanding the Output
-Currently, the script will print the final summary directly to your Console/Terminal window.
+The script will print the final summary directly to your Console/Terminal window.
 
 * Note: The tool does not save the summary to a file automatically. If you want to save the text, you can copy and paste it from the terminal, or the code can be modified later to save a .txt file.
 

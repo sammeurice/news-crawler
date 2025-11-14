@@ -1,11 +1,13 @@
 import argparse
 import csv
 import json
+import smtplib
 import os
 from openai import OpenAI
 from dotenv import load_dotenv
 from firecrawl import Firecrawl
 from jinja2 import Environment, FileSystemLoader
+from email.message import EmailMessage
 
 # Load environment variables from .env file
 load_dotenv()
@@ -14,8 +16,9 @@ firecrawl_api_key = os.getenv("FIRECRAWL_API_KEY")
 # Set up argument parser for article caching
 CACHE_FILE = "articles_cache.json"
 
-parser = argparse.ArgumentParser(description="Battery News Summarizer")
+parser = argparse.ArgumentParser(description="News Summarizer")
 parser.add_argument("--test", action="store_true", help="Skip scraping and use cached articles")
+parser.add_argument("--send_email", action="store_true", help="Send email with the result")
 args = parser.parse_args()
 
 # Get sites to crawl from sites.csv. Return a dict containing the url of the site and it's crawl limit.
@@ -111,9 +114,31 @@ def call_chat(prompt):
 
     return response.choices[0].message.content
 
+def send_email(email_content):
+    msg = EmailMessage()
+    msg.set_content(email_content)
+    msg['Subject'] = "NEWSLETTER FROM SAM"
+    msg['From'] = os.getenv("EMAIL_ADDRESS")
+    msg['To'] = os.getenv("EMAIL_RECIPIENT")
+
+    try:
+        # Note: We use port 587 for TLS. Port 465 or 25 often get blocked in Cloud environments.
+        with smtplib.SMTP('smtp.gmail.com', 587) as server:
+            server.starttls()
+            server.login(os.getenv("EMAIL_ADDRESS"), os.getenv("EMAIL_PASSWORD"))
+            server.send_message(msg)
+            print("Email sent successfully!")
+    except Exception as e:
+        print(f"Failed to send email: {e}")
+
+def handle_llm_response(response):
+    print(response)
+    if args.send_email:
+        send_email(response)
+
+
 sites = get_sites()
 articles = get_articles(sites)
 prompt = create_prompt(articles)
 response = call_chat(prompt)
-
-print(response)
+handle_llm_response(response)

@@ -1,4 +1,4 @@
-# Battery News Summarizer
+# News Summarizer
 This tool automatically visits a list of websites you provide, reads the content, and uses Artificial Intelligence (ChatGPT) to generate a summary of the latest news.
 
 ## 1. Prerequisites (Before you start)
